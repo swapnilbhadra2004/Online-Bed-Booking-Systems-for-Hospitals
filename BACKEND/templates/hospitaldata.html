@@ -1,0 +1,73 @@
+{% extends "navbar.html" %}
+{% block title %}
+Add Hospital Information
+{% endblock title %}
+
+{% block body %}
+<div class="container mt-5">
+    <br>
+    <br>
+    <br>
+  <h2 class="text-center text-info mb-4">Add Hospital Information</h2>
+
+  <div class="row justify-content-center align-items-start">
+    <!-- Left: Form -->
+    <div class="col-md-6">
+      <div class="card shadow-lg p-3 mb-5 bg-white rounded">
+        {% include "message.html" %}
+        <h3 class="text-center text-info">Online Bed Allotment</h3>
+        <div class="card-body bg-light">
+          <form action="/addhospitalinfo" method="post">
+            <div class="form-group">
+              <input type="text" name="hcode" class="form-control mt-2" value = "{{code}}" readonly required>
+            </div>
+            <div class="form-group">
+              <input type="text" name="hname" class="form-control mt-2" placeholder="Enter hospital name" required>
+            </div>
+            <div class="form-group">
+              <input type="number" name="normal" class="form-control mt-2" placeholder="Enter number of normal beds" required>
+            </div>
+            <div class="form-group">
+              <input type="number" name="icu" class="form-control mt-2" placeholder="Enter number of ICU beds" required>
+            </div>
+            <div class="form-group">
+              <input type="number" name="ventilator" class="form-control mt-2" placeholder="Enter number of ventilator beds" required>
+            </div>
+            <div class="form-group">
+              <input type="number" name="hicu" class="form-control mt-2" placeholder="Enter number of HICU beds" required>
+            </div>
+            <br>
+            <button action="/addhospitalinfo" class="btn btn-info w-100" type="submit">Add</button>
+          </form>
+        </div>
+      </div>
+    </div>
+
+    <!-- Right: Image Card -->
+    <div class="card mb-3" style="max-width: 540px;">
+  <div class="row g-0">
+    <div class="col-md-4">
+      <img src="https://www.who.int/images/default-source/wpro/health-topic/hospitals/f8-11102016-my-6042.tmb-1024v.jpg" class="img-fluid rounded-start" alt="..." style="width: 400px; height: 450px;">
+    </div>
+    <div class="col-md-8">
+      <div class="card-body">
+        <h5 class="card-title">Hospital data</h5>
+        <div class="card" style="width: 18rem;">
+  <ul class="list-group list-group-flush">
+    <li class="list-group-item">Hospital Code: <b>{{postdata.hcode}}</b></li>
+    <li class="list-group-item">Hospital Name: <b>{{postdata.hname}}</b></li>
+    <li class="list-group-item">Normal Beds: <b>{{postdata.normal}}</b></li>
+    <li class="list-group-item">ICU Beds: <b>{{postdata.icu}}</b></li>
+    <li class="list-group-item">HICU Beds: <b>{{postdata.hicu}}</b></li>
+    <li class="list-group-item">Ventilator Beds:<b>{{postdata.ventilator}}</b></li>
+    <li class="list-group-item"><a href="/hedit/{{postdata.id}}" style="color:red;">Edit</a></li>
+    <li class="list-group-item"><a  confirm('Are you sure to delete the data'); href="/hdelete/{{postdata.id}}"  style="color:red;">Delete</a></li>
+  </ul>
+</div>
+      </div>
+    </div>
+  </div>
+</div>
+  </div>
+</div>
+{% endblock body %}
