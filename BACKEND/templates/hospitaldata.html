@@ -42,12 +42,11 @@ Add Hospital Information
         </div>
       </div>
     </div>
-
     <!-- Right: Image Card -->
+     {% if postdata %}
     <div class="card mb-3" style="max-width: 540px;">
   <div class="row g-0">
-    <div class="col-md-4">
-      <img src="https://www.who.int/images/default-source/wpro/health-topic/hospitals/f8-11102016-my-6042.tmb-1024v.jpg" class="img-fluid rounded-start" alt="..." style="width: 400px; height: 450px;">
+    <div class="col-md-6">
     </div>
     <div class="col-md-8">
       <div class="card-body">
@@ -66,6 +65,7 @@ Add Hospital Information
 </div>
       </div>
     </div>
+    {% endif %}
   </div>
 </div>
   </div>

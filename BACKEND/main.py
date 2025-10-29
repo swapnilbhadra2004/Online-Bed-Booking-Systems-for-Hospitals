@@ -27,8 +27,15 @@ with(open('config.json','r')) as c:
 
 @login_manager.user_loader
 def load_user(user_id):
-    print(user_id)
-    return User.query.get(int(user_id)) or Hospitaluser.query.get(int(user_id))
+    from flask import session
+    user_type = session.get("user_type")
+
+    if user_type == "user":
+        return User.query.get(int(user_id))
+    elif user_type == "hospital":
+        return Hospitaluser.query.get(int(user_id))
+    return None
+
    
 
 
@@ -40,7 +47,7 @@ class User(UserMixin,db.Model):
     id = db.Column(db.Integer,primary_key = True)
     srf = db.Column(db.String(20),unique = True)
     email = db.Column(db.String(100),unique = True)
-    dob = db.Column(db.String(1000))
+    dob = db.Column(db.String(100))
 class Hospitaluser(UserMixin,db.Model):
     id = db.Column(db.Integer,primary_key = True)
     hcode = db.Column(db.String(20),unique = True)
@@ -101,7 +108,12 @@ def signup():
         encpassword = generate_password_hash(dob) 
         user = User.query.filter_by(srf=srf).first()
         emailuser = User.query.filter_by(email=email).first()
-        if(user or emailuser):
+        emailuser1 = Hospitaluser.query.filter_by(email=email).first()
+        print(email)
+        if emailuser1:
+             flash("Email used by hospital staff","danger")
+             return render_template("usersignin.html")
+        elif user or emailuser:
             flash("Email or srf id is already taken","warning")
             return render_template("usersignin.html")
         db.session.execute(text("INSERT INTO user (srf, email, dob) VALUES (:srf, :email, :dob)"),{"srf": srf, "email": email, "dob": encpassword})
@@ -125,9 +137,9 @@ def login():
         srf = request.form.get("srf")
         dob = request.form.get("dob")
         user = User.query.filter_by(srf=srf).first()
-
         if(user and check_password_hash(user.dob,dob)):
             login_user(user)
+            session["user_type"] = "user"
             flash("Authentication success","info")
             return render_template("index.html")
         else:
@@ -196,6 +208,7 @@ def hospitallogin():
         if(user and check_password_hash(user.password,password)):
             print(user.email)
             login_user(user)
+            session["user_type"] = "hospital"
             flash("Authentication success","info")
             return render_template("index.html")
         else:
@@ -386,5 +399,8 @@ def trigger():
      query = Trigger_log.query.all()
      return render_template("trigger.html",query=query)
 
-
+@app.route("/patients")
+def patients():
+     query = Bookingpatients.query.all()
+     return render_template("patients.html",query=query)
 app.run(debug=True)

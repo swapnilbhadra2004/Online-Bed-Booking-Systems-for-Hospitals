@@ -1,0 +1,52 @@
+{% extends 'baselogin.html' %}
+{% block title %} Patient history  {% endblock title %}
+{% block form %}
+<h2>Past activity </h2>
+{% include "message.html" %}
+<div class="row">
+
+
+
+<div class="col-md-2"></div>
+<div class="col-md-8">
+
+
+
+<div class="container mt-2">
+
+    <table class="table table-info">
+  <thead>
+  <h3 class="text-center text-white bg-info">Past activity</h3>
+    <tr>
+      
+      <th scope="col">Patient ID</th>
+      <th scope="col">Bed Type</th>
+      <th scope="col">Hospital Code</th>
+      <th scope="col">SPO2</th>
+      <th scope="col">Patient Name</th>
+      <th scope="col">Patient Phone</th>
+      <th scope="col">Address</th>
+    </tr>
+  </thead>
+  <tbody>
+  {% for post in query %}
+   <tr>
+      <td>{{post.srfid}}</td>
+      <td>{{post.bedtype}}</td>
+      <td>{{post.hcode}}</td>
+      <td>{{post.spo2}}</td>
+      <td>{{post.pname}}</td>
+      <td>{{post.phone}}</td>
+      <td>{{post.address}}</td>
+    </tr>
+   
+  {% endfor %}
+   
+  </tbody>
+</table>
+
+
+</div>
+</div>
+
+{% endblock form %}
